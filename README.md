@@ -1,0 +1,1 @@
+This is intended as a small library to improve the production of the add-ons I create. Primarily designed for my own personal use and not something that will be officially maintained.

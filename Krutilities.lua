@@ -56,8 +56,8 @@ if Krutilities == nil or Krutilities.Version < VERSION then
 	end
 
 	local Shared_Sizing = function(target, node)
-		local width = node.width or 0;
-		local height = node.height or 0;
+		local width = node.width or nil;
+		local height = node.height or nil;
 
 		if node.size then
 			if type(node.size) == "table" then
@@ -69,12 +69,25 @@ if Krutilities == nil or Krutilities.Version < VERSION then
 			end
 		end
 
-		target:SetSize(width, height);
+		if width then target:SetWidth(width); end
+		if height then target:SetHeight(height); end
 	end
 
 	local Shared_Inject = function(target, parent, injectSelf)
 		if injectSelf then
 			parent[injectSelf] = target;
+		end
+	end
+
+	local Shared_CreateChild = function(createFunc, frame, node)
+		local new = createFunc(frame, node);
+		
+		if node.buttonTex then
+			if node.buttonTex == "PUSHED" then
+				frame:SetPushedTexture(new);
+			elseif node.buttonTex == "HIGHLIGHT" then
+				frame:SetHighlightTexture(new);
+			end
 		end
 	end
 
@@ -87,11 +100,11 @@ if Krutilities == nil or Krutilities.Version < VERSION then
 		if nodeCount > 0 then
 			-- Node contains children, spawn them all.
 			for i = 1, nodeCount do
-				childFunc(frame, node[i]);
+				Shared_CreateChild(childFunc, frame, node[i]);
 			end
 		else
 			-- No children, treat as a single object.
-			childFunc(frame, node);
+			Shared_CreateChild(childFunc, frame, node);
 		end
 	end
 
@@ -118,15 +131,28 @@ if Krutilities == nil or Krutilities.Version < VERSION then
 		Shared_Inject(frame, node.parent, node.injectSelf);
 
 		-- Anchor points
-		if node.points == nil then node.points = {}; end
-		if #node.points == 0 then node.points.point = "CENTER"; end
+		if node.points == nil then node.points = { point = "CENTER" }; end
 		Shared_ProcessPoints(frame, node.points, node.parent);
 		if node.setAllPoints then frame:SetAllPoints(true); end
+
+		-- Backdrop
+		if node.backdrop then frame:SetBackdrop(node.backdrop); end
+
+		-- Data
+		if node.data then
+			for key, value in pairs(node.data) do
+				frame[key] = value;
+			end
+		end
 
 		-- Scripts
 		if node.scripts then
 			for scriptEvent, scriptFunc in pairs(node.scripts) do
-				frame:SetScript(scriptEvent, scriptFunc);
+				if scriptEvent == "OnLoad" then
+					scriptFunc(frame);
+				else
+					frame:SetScript(scriptEvent, scriptFunc);
+				end
 			end
 		end
 
@@ -195,6 +221,7 @@ if Krutilities == nil or Krutilities.Version < VERSION then
 		if node.text then text:SetText(node.text); end
 		if node.justifyH then text:SetJustifyH(node.justifyH); end
 		if node.justifyV then text:SetJustifyV(node.justifyV); end
+		if node.maxLines then text:SetMaxLines(node.maxLines); end
 
 		-- Colouring
 		if node.color then
@@ -207,8 +234,7 @@ if Krutilities == nil or Krutilities.Version < VERSION then
 		end
 
 		-- Anchor points
-		if node.points == nil then node.points = {}; end
-		if #node.points == 0 then node.points.point = "CENTER"; end
+		if node.points == nil then node.points = { point = "CENTER" }; end
 		Shared_ProcessPoints(text, node.points, frame);
 
 		return text;

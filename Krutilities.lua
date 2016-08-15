@@ -40,7 +40,7 @@ if Krutilities == nil or Krutilities.Version < VERSION then
 
 	local Shared_ProcessPoints = function(target, points, parent)
 		if points then
-			if points.point then
+			if #points == 0 then
 				-- Single point.
 				points.point = points.point or "CENTER";
 				target:SetPoint(points.point, points.relativeTo or parent, points.relativePoint or points.point, points.x or 0, points.y or 0);
@@ -78,6 +78,23 @@ if Krutilities == nil or Krutilities.Version < VERSION then
 		end
 	end
 
+	local Shared_HandleChildren = function(frame, childFunc, node)
+		if node == nil then
+			return;
+		end
+
+		local nodeCount = #node;
+		if nodeCount > 0 then
+			-- Node contains children, spawn them all.
+			for i = 1, nodeCount do
+				childFunc(frame, node[i]);
+			end
+		else
+			-- No children, treat as a single object.
+			childFunc(frame, node);
+		end
+	end
+
 	K.Frame = function(self, node)
 		if self ~= Krutilities then
 			node.parent = self;
@@ -101,6 +118,8 @@ if Krutilities == nil or Krutilities.Version < VERSION then
 		Shared_Inject(frame, node.parent, node.injectSelf);
 
 		-- Anchor points
+		if node.points == nil then node.points = {}; end
+		if #node.points == 0 then node.points.point = "CENTER"; end
 		Shared_ProcessPoints(frame, node.points, node.parent);
 		if node.setAllPoints then frame:SetAllPoints(true); end
 
@@ -110,6 +129,11 @@ if Krutilities == nil or Krutilities.Version < VERSION then
 				frame:SetScript(scriptEvent, scriptFunc);
 			end
 		end
+
+		-- Children
+		Shared_HandleChildren(frame, K.Texture, node.textures);
+		Shared_HandleChildren(frame, K.Frame, node.frames);
+		Shared_HandleChildren(frame, K.Text, node.texts);
 
 		-- Inject shortcut functions.
 		frame.SpawnTexture = K.Texture;
@@ -135,8 +159,21 @@ if Krutilities == nil or Krutilities.Version < VERSION then
 		tex:SetTexture(node.texture, tileX, tileY);
 
 		-- Anchor points
+		if node.points == nil or #node.points == 0 then
+			node.setAllPoints = true;
+		end
 		Shared_ProcessPoints(tex, node.points, frame);
 		if node.setAllPoints then tex:SetAllPoints(true); end
+
+		-- Colour filter
+		if node.color then
+			local r = node.color.r or node.color[1] or 0;
+			local g = node.color.g or node.color[2] or 0;
+			local b = node.color.b or node.color[3] or 0;
+			local a = node.color.a or node.color[4] or 1;
+
+			tex:SetVertexColor(r, g, b, a);
+		end
 
 		-- Tex coords.
 		if node.texCoord then
@@ -170,9 +207,10 @@ if Krutilities == nil or Krutilities.Version < VERSION then
 		end
 
 		-- Anchor points
+		if node.points == nil then node.points = {}; end
+		if #node.points == 0 then node.points.point = "CENTER"; end
 		Shared_ProcessPoints(text, node.points, frame);
 
 		return text;
 	end
 end
-

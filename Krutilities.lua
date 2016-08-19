@@ -1,4 +1,4 @@
-local VERSION = 1.0;
+local VERSION = 1.1;
 
 if Krutilities == nil or Krutilities.Version < VERSION then
 	Krutilities = {};
@@ -89,6 +89,10 @@ if Krutilities == nil or Krutilities.Version < VERSION then
 				frame:SetHighlightTexture(new);
 			end
 		end
+
+		if node.scrollChild then
+			frame:SetScrollChild(new);
+		end
 	end
 
 	local Shared_HandleChildren = function(frame, childFunc, node)
@@ -145,15 +149,10 @@ if Krutilities == nil or Krutilities.Version < VERSION then
 			end
 		end
 
-		-- Scripts
-		if node.scripts then
-			for scriptEvent, scriptFunc in pairs(node.scripts) do
-				if scriptEvent == "OnLoad" then
-					scriptFunc(frame);
-				else
-					frame:SetScript(scriptEvent, scriptFunc);
-				end
-			end
+		-- Editbox Stuff
+		if node.type == "EDITBOX" then
+			if node.multiLine then frame:SetMultiLine(true); else frame:SetMultiLine(false); end
+			if node.autoFocus then frame:SetAutoFocus(true); else frame:SetAutoFocus(false); end
 		end
 
 		-- Children
@@ -161,10 +160,26 @@ if Krutilities == nil or Krutilities.Version < VERSION then
 		Shared_HandleChildren(frame, K.Frame, node.frames);
 		Shared_HandleChildren(frame, K.Text, node.texts);
 
+		-- Scripts
+		if node.scripts then
+			for scriptEvent, scriptFunc in pairs(node.scripts) do
+				if scriptEvent == "OnLoad" then
+					scriptFunc(frame);
+				else
+					frame:SetScript(scriptEvent, scriptFunc);
+
+					if scriptEvent == "OnShow" then
+						scriptFunc(frame);
+					end
+				end
+			end
+		end
+
 		-- Inject shortcut functions.
 		frame.SpawnTexture = K.Texture;
 		frame.SpawnText = K.Text;
 		frame.SpawnFrame = K.Frame;
+
 		return frame;
 	end
 

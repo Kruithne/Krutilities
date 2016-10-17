@@ -240,7 +240,7 @@ do
 		tex:SetTexture(node.texture, tileX, tileY);
 
 		-- Anchor points
-		if node.points == nil then
+		if node.points == nil and node.setAllPoints ~= false then
 			node.setAllPoints = true;
 		end
 		

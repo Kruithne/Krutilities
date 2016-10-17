@@ -180,6 +180,7 @@ Beyond the core functionality of Krutilities, some extra utility functions are p
 
 Clones the provided table, creating a duplicate of it. The behavior of the cloning can be controlled by the ``deep`` parameter.
 >**Syntax**: K.CloneTable(*tbl*, *deep*);
+
 | Parameter  | Type | Description | Default |
 | ---------- | ---- | ----------- | ------- |
 | tbl | table | The table to clone. | *Required*
@@ -191,6 +192,7 @@ Clones the provided table, creating a duplicate of it. The behavior of the cloni
 
 Invokes the behavior of the ``/dump`` command included in ``Blizzard_DebugTools`` on the provided reference or value. Useful for inspecting variables during debugging.
 >**Syntax**: K.Dump(*obj*);
+
 | Parameter  | Type | Description | Default |
 | ---------- | ---- | ----------- | ------- |
 | obj | anything | Object or value to dump. | *Required*
@@ -200,6 +202,7 @@ Invokes the behavior of the ``/dump`` command included in ``Blizzard_DebugTools`
 A quick-and-dirty short-cut for creating an event handler. This is aimed to save some time when creating smaller add-ons; if you're creating a larger, more intensive add-on, creating a tailored event handler would be more ideal.
 
 >**Syntax**: K.EventHandler(*addon*, *events*);
+
 | Parameter  | Type | Description | Default |
 | ---------- | ---- | ----------- | ------- |
 | addon | table | Object containing the functions to call. | *Required*

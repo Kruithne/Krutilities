@@ -137,6 +137,8 @@ do
 	end
 
 	_M.Frame = function(self, node)
+		assert(type(node) == "table", "Krutilities:Frame called with invalid constructor table.");
+
 		if self ~= _M then
 			node.parent = self;
 		end
@@ -216,6 +218,8 @@ do
 	end
 
 	_M.Texture = function(frame, node)
+		assert(type(node) == "table", "Krutilities:Texture called with invalid constructor table.");
+
 		if node.parentName then node.name = "$parent" .. node.parentName; end
 		local tex = frame:CreateTexture(node.name, node.layer, node.inherit, node.subLevel or 0);
 
@@ -258,6 +262,8 @@ do
 	end
 
 	_M.Text = function(frame, node)
+		assert(type(node) == "table", "Krutilities:Text called with invalid constructor table.");
+
 		if node.parentName then node.name = "$parent" .. node.parentName; end
 		local text = frame:CreateFontString(node.name, node.layer, node.inherit);
 

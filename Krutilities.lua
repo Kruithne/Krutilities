@@ -1,63 +1,17 @@
--- [[ Optimization ]] --
-local type = type;
-local pairs = pairs;
-local CreateFrame = CreateFrame;
+do
+	local _M = { Version = 1.4 };
 
--- [[ Core ]] --
-local VERSION = 1.3;
-
-if Krutilities == nil or Krutilities.Version < VERSION then
-	Krutilities = {};
-	local K = Krutilities;
-
-	-- [[ Clone a table, shallow or deep. ]] --
-	K.CloneTable = function(input, deep)
-		local inputType = type(input);
-		local output;
-
-		if inputType == "table" then
-			output = {};
-
-			if deep then
-				-- Deep copy.
-				for key, value in next, input, nil do
-					output[K.CloneTable(key, true)] = K.CloneTable(value, true);
-				end
-			else
-				-- Shallow copy.
-				for key, value in pairs(input) do
-					output[key] = value;
-				end
-			end
-		else
-			output = input;
-		end
-
-		return output;
+	if Krutilities and Krutilities.Version >= _M.Version then
+		-- Newer/equal version already loaded.
+		return;
 	end
 
-	K.Dump = function(input)
-		if type(input) ~= "string" then
-			K._TEMP = input;
-			input = "Krutilities._TEMP";
-		end
-		SlashCmdList["DUMP"](input);
-	end
+	-- [[ Optimization ]] --
+	local type = type;
+	local pairs = pairs;
+	local CreateFrame = CreateFrame;
 
-	K.EventHandler = function(addon, events)
-		local eventFrame = CreateFrame("FRAME");
-
-		for eventName, funcName in pairs(events) do
-			eventFrame:RegisterEvent(eventName);
-		end
-
-		eventFrame:SetScript("OnEvent", function(self, event, ...)
-			addon[events[event]](...);
-		end);
-
-		return eventFrame;
-	end
-
+	-- [[ Local Functions ]] --
 	local Shared_ProcessPoints = function(target, points, parent)
 		if points then
 			if #points == 0 then
@@ -130,6 +84,56 @@ if Krutilities == nil or Krutilities.Version < VERSION then
 			-- No children, treat as a single object.
 			Shared_CreateChild(childFunc, frame, node);
 		end
+	end
+
+	-- [[ Global Utility ]] --
+
+	-- [[ Clone a table, shallow or deep ]] --
+	_M.CloneTable = function(input, deep)
+		local inputType = type(input);
+		local output;
+
+		if inputType == "table" then
+			output = {};
+
+			if deep then -- Deep copy (copy-by-value)
+				for key, value in next, input, nil do
+					output[_M.CloneTable(key, true)] = _M.CloneTable(value, true);
+				end
+			else -- Shallow copy (copy-by-reference)
+				for key, value in pairs(input) do
+					output[key] = value;
+				end
+			end
+		else
+			output = input;
+		end
+
+		return output;
+	end
+
+	-- [[ Dump an object using Blizzard's debugging tool ]] --
+	_M.Dump = function(input)
+		if type(input) ~= "string" then
+			_M._TEMP = input;
+			input = "Krutilities._TEMP";
+		end
+		SlashCmdList["DUMP"](input);
+	end
+
+	-- [[ Event handler creation utility ]] --
+	_M.EventHandler = function(addon, events)
+		local eventFrame = CreateFrame("FRAME");
+
+		for eventName, funcName in pairs(events) do
+			eventFrame:RegisterEvent(eventName);
+		end
+
+		eventFrame:SetScript("OnEvent", function(self, event, ...)
+			addon[events[event]](...);
+		end);
+
+		return eventFrame;
 	end
 
 	K.Frame = function(self, node)
@@ -279,4 +283,7 @@ if Krutilities == nil or Krutilities.Version < VERSION then
 
 		return text;
 	end
+
+	-- Expose module to global scope.
+	Krutilities = _M;
 end

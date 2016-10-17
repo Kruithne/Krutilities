@@ -268,6 +268,10 @@ do
 	_M.Text = function(frame, node)
 		assert(type(node) == "table", "Krutilities:Text called with invalid constructor table.");
 
+		if not node.parent then
+			node.parent = frame ~= _M and frame or UIParent;
+		end
+
 		if node.parentName then node.name = "$parent" .. node.parentName; end
 		local text = frame:CreateFontString(node.name, node.layer, node.inherit);
 

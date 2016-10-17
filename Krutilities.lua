@@ -157,9 +157,8 @@ do
 
 		local frame = CreateFrame(node.type or "FRAME", node.name, node.parent, node.inherit);
 
-		if node.hidden then
-			frame:Hide();
-		end
+		if node.hidden then frame:Hide(); end
+		if node.enableMouse then frame:EnableMouse(); end
 
 		if node.strata then
 			frame:SetFrameStrata(node.strata);

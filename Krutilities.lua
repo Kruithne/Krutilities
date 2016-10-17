@@ -1,3 +1,9 @@
+-- [[ Optimization ]] --
+local type = type;
+local pairs = pairs;
+local CreateFrame = CreateFrame;
+
+-- [[ Core ]] --
 local VERSION = 1.3;
 
 if Krutilities == nil or Krutilities.Version < VERSION then

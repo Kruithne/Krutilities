@@ -136,8 +136,8 @@ do
 		return eventFrame;
 	end
 
-	K.Frame = function(self, node)
-		if self ~= Krutilities then
+	_M.Frame = function(self, node)
+		if self ~= _M then
 			node.parent = self;
 		end
 
@@ -184,9 +184,9 @@ do
 		end
 
 		-- Children
-		Shared_HandleChildren(frame, K.Texture, node.textures);
-		Shared_HandleChildren(frame, K.Frame, node.frames);
-		Shared_HandleChildren(frame, K.Text, node.texts);
+		Shared_HandleChildren(frame, _M.Texture, node.textures);
+		Shared_HandleChildren(frame, _M.Frame, node.frames);
+		Shared_HandleChildren(frame, _M.Text, node.texts);
 
 		-- Scripts
 		if node.scripts then
@@ -204,14 +204,14 @@ do
 		end
 
 		-- Inject shortcut functions.
-		frame.SpawnTexture = K.Texture;
-		frame.SpawnText = K.Text;
-		frame.SpawnFrame = K.Frame;
+		frame.SpawnTexture = _M.Texture;
+		frame.SpawnText = _M.Text;
+		frame.SpawnFrame = _M.Frame;
 
 		return frame;
 	end
 
-	K.Texture = function(frame, node)
+	_M.Texture = function(frame, node)
 		if node.parentName then node.name = "$parent" .. node.parentName; end
 		local tex = frame:CreateTexture(node.name, node.layer, node.inherit, node.subLevel or 0);
 
@@ -253,7 +253,7 @@ do
 		return tex;
 	end
 
-	K.Text = function(frame, node)
+	_M.Text = function(frame, node)
 		if node.parentName then node.name = "$parent" .. node.parentName; end
 		local text = frame:CreateFontString(node.name, node.layer, node.inherit);
 

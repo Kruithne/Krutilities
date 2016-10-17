@@ -12,6 +12,7 @@ local K = Krutilities;
 > **Note:** It's common practice in Lua development to create local references to things you use more than once from the global scope. The variable name itself is not important, but **K** works well here.
 
 **Creating Frames**
+
 Creating frames can be done easily using the ``Frame`` function, which takes a self-reference along with a constructor table.
 
 ```lua
@@ -31,6 +32,7 @@ local childFrame = myFrame:SpawnFrame({
 This will create another frame called ``MyAddonFrameChildFrame``, parented to ``MyAddonFrame``.
 
 **Creating Textures**
+
 Using the same format as frames, we can easily create textures using the ``Texture`` function provided by Krutilities. In this example, rather than using the function directly, we'll show-case how the short-cut functions from a frame work.
 
 ```lua
@@ -48,6 +50,7 @@ myFrame:SpawnTexture({
 Check the constructor reference below to see all parameters that can be provided along with their defaults.
 
 **Creating Text**
+
 Again, using the same format we did for frames and textures, we can easily spawn text using the ``Text`` function. Rather than using the direct method (as seen in the frame demo) or the chain method (as seen in the texturing demo), we're going to use the pass-in method in this example.
 
 ```lua
@@ -63,6 +66,7 @@ local myFrame = K:Frame({
 For a more in-depth look at how pass-in  creation works, check out the Recursive Creation section further down in this document.
 
 **Constructor Reference for Frame**
+
 | Parameter  | Type | Description | Default (when omitted) |
 | ---------- | ---- | ----------- | ---------------------- |
 | parent | frame, string | A frame which the created frame will parent to. Can be a frame reference or string (global lookup). | ``UIParent`` (or the calling frame for ``SpawnFrame``). |
@@ -88,6 +92,7 @@ For a more in-depth look at how pass-in  creation works, check out the Recursive
 | scripts | table | Set script handlers for the frame. Each table key is the event, ie ``OnShow``, with the value being the handler function for said event. | |
 
 **Constructor Reference for Textures**
+
 | Parameter  | Type | Description | Default (when omitted) |
 | ---------- | ---- | ----------- | ---------------------- |
 | parent | frame, string | A frame which the created texture will parent to. Can be a frame reference or string (global lookup). | ``UIParent`` (or the calling frame for ``SpawnTexture``). |
@@ -110,6 +115,7 @@ For a more in-depth look at how pass-in  creation works, check out the Recursive
 | texCoord | table | Sets the texture co-ordinates. Format: ``{left,right,top,bottom}``. | ``{0, 1, 0, 1}`` |
 
 **Constructor Reference for Text**
+
 | Parameter  | Type | Description | Default (when omitted) |
 | ---------- | ---- | ----------- | ---------------------- |
 | parent | frame, string | A frame which the created font-string will parent to. Can be a frame reference or string (global lookup). | ``UIParent`` (or the calling frame for ``SpawnText``). |
@@ -129,6 +135,7 @@ For a more in-depth look at how pass-in  creation works, check out the Recursive
 | points | table | See anchoring reference in this document. | Single basic ``CENTER`` point. |
 
 **Anchoring Reference**
+
 Anchoring data can be provided for all three of the primary factory functions in the form of a simple table. If you're providing just one point, the table itself can be an anchoring node with the parameters directly supplied. If you're providing multiple anchors, then each point must be it's own table inside the initial table.
 
 ```lua
@@ -156,6 +163,7 @@ local myFrame = K:Frame({
 >**Note:** The ``relativeTo`` value must be an actual frame reference; no global-lookup is performed for strings, unlike during frame parenting.
 
 **Recursive Creation**
+
 In addition to the short-cut functions injected into created frames, recursive creation is also possible by providing constructor data for child elements directly into constructor tables.
 
 >**Note**: Recursive creation only works for frames; textures and texts do not support child creation in any format beyond being anchored together.
@@ -169,6 +177,7 @@ Extra Utilities
 Beyond the core functionality of Krutilities, some extra utility functions are provided. 
 
 **CloneTable**
+
 Clones the provided table, creating a duplicate of it. The behavior of the cloning can be controlled by the ``deep`` parameter.
 >**Syntax**: K.CloneTable(*tbl*, *deep*);
 | Parameter  | Type | Description | Default |
@@ -179,6 +188,7 @@ Clones the provided table, creating a duplicate of it. The behavior of the cloni
 >**Deep Cloning**: A deep clone will inspect every element down the tree and clone any tables found in the keys and/or values. In a non-deep clone, nested tables will be copied by reference. Functions and userdata are always copied by reference.
 
 **Dump**
+
 Invokes the behavior of the ``/dump`` command included in ``Blizzard_DebugTools`` on the provided reference or value. Useful for inspecting variables during debugging.
 >**Syntax**: K.Dump(*obj*);
 | Parameter  | Type | Description | Default |
@@ -186,6 +196,7 @@ Invokes the behavior of the ``/dump`` command included in ``Blizzard_DebugTools`
 | obj | anything | Object or value to dump. | *Required*
 
 **EventHandler**
+
 A quick-and-dirty short-cut for creating an event handler. This is aimed to save some time when creating smaller add-ons; if you're creating a larger, more intensive add-on, creating a tailored event handler would be more ideal.
 
 >**Syntax**: K.EventHandler(*addon*, *events*);

@@ -220,8 +220,12 @@ do
 	_M.Texture = function(frame, node)
 		assert(type(node) == "table", "Krutilities:Texture called with invalid constructor table.");
 
+		if not node.parent then
+			node.parent = frame ~= _M and frame or UIParent;
+		end
+
 		if node.parentName then node.name = "$parent" .. node.parentName; end
-		local tex = frame:CreateTexture(node.name, node.layer, node.inherit, node.subLevel or 0);
+		local tex = node.parent:CreateTexture(node.name, node.layer, node.inherit, node.subLevel or 0);
 
 		-- Generic stuff
 		Shared_Sizing(tex, node);

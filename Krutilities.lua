@@ -14,16 +14,20 @@ do
 	-- [[ Local Functions ]] --
 	local Shared_ProcessPoints = function(target, points, parent)
 		if points then
-			if #points == 0 then
-				-- Single point.
-				points.point = points.point or "CENTER";
-				target:SetPoint(points.point, points.relativeTo or parent, points.relativePoint or points.point, points.x or 0, points.y or 0);
+			if type(points) == "string" then
+				target:SetPoint(points, parent, points, 0, 0);
 			else
-				-- Many points
-				for i = 1, #points do
-					local point = points[i];
-					point.point = point.point or "CENTER";
-					target:SetPoint(point.point, point.relativeTo or parent, point.relativePoint or point.point, point.x or 0, point.y or 0);
+				if #points == 0 then
+					-- Single point.
+					points.point = points.point or "CENTER";
+					target:SetPoint(points.point, points.relativeTo or parent, points.relativePoint or points.point, points.x or 0, points.y or 0);
+				else
+					-- Many points
+					for i = 1, #points do
+						local point = points[i];
+						point.point = point.point or "CENTER";
+						target:SetPoint(point.point, point.relativeTo or parent, point.relativePoint or point.point, point.x or 0, point.y or 0);
+					end
 				end
 			end
 		end

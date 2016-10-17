@@ -119,6 +119,7 @@ do
 			input = "Krutilities._TEMP";
 		end
 		SlashCmdList["DUMP"](input);
+		_M._TEMP = nil;
 	end
 
 	-- [[ Event handler creation utility ]] --

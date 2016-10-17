@@ -1,4 +1,4 @@
-local VERSION = 1.1;
+local VERSION = 1.3;
 
 if Krutilities == nil or Krutilities.Version < VERSION then
 	Krutilities = {};
@@ -36,6 +36,20 @@ if Krutilities == nil or Krutilities.Version < VERSION then
 			input = "Krutilities._TEMP";
 		end
 		SlashCmdList["DUMP"](input);
+	end
+
+	K.EventHandler = function(addon, events)
+		local eventFrame = CreateFrame("FRAME");
+
+		for eventName, funcName in pairs(events) do
+			eventFrame:RegisterEvent(eventName);
+		end
+
+		eventFrame:SetScript("OnEvent", function(self, event, ...)
+			addon[events[event]](...);
+		end);
+
+		return eventFrame;
 	end
 
 	local Shared_ProcessPoints = function(target, points, parent)
@@ -130,6 +144,10 @@ if Krutilities == nil or Krutilities.Version < VERSION then
 
 		local frame = CreateFrame(node.type or "FRAME", node.name, node.parent, node.inherit);
 
+		if node.strata then
+			frame:SetFrameStrata(node.strata);
+		end
+
 		-- Generic stuff.
 		Shared_Sizing(frame, node);
 		Shared_Inject(frame, node.parent, node.injectSelf);
@@ -200,9 +218,10 @@ if Krutilities == nil or Krutilities.Version < VERSION then
 		tex:SetTexture(node.texture, tileX, tileY);
 
 		-- Anchor points
-		if node.points == nil or #node.points == 0 then
+		if node.points == nil then
 			node.setAllPoints = true;
 		end
+		
 		Shared_ProcessPoints(tex, node.points, frame);
 		if node.setAllPoints then tex:SetAllPoints(true); end
 

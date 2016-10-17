@@ -90,6 +90,7 @@ For a more in-depth look at how pass-in  creation works, check out the Recursive
 | textures | table | See recursive creation in this document. | |
 | texts | table | See recursive creation in this document. | |
 | scripts | table | Set script handlers for the frame. Each table key is the event, ie ``OnShow``, with the value being the handler function for said event. | |
+| enableMouse | bool | If set, the frame will accept mouse input. | ``false `` |
 
 **Constructor Reference for Textures**
 

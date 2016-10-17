@@ -154,6 +154,10 @@ do
 
 		local frame = CreateFrame(node.type or "FRAME", node.name, node.parent, node.inherit);
 
+		if node.hidden then
+			frame:Hide();
+		end
+
 		if node.strata then
 			frame:SetFrameStrata(node.strata);
 		end
@@ -196,7 +200,7 @@ do
 				else
 					frame:SetScript(scriptEvent, scriptFunc);
 
-					if scriptEvent == "OnShow" then
+					if not node.hidden and scriptEvent == "OnShow" then
 						scriptFunc(frame);
 					end
 				end

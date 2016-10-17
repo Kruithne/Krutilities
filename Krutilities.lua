@@ -47,6 +47,14 @@ do
 		if height then target:SetHeight(height); end
 	end
 
+	local Shared_Mixin = function(target, mixin)
+		if mixin then
+			for key, value in pairs(mixin) do
+				target[key] = value;
+			end
+		end
+	end
+
 	local Shared_Inject = function(target, parent, injectSelf)
 		if injectSelf then
 			parent[injectSelf] = target;
@@ -167,6 +175,7 @@ do
 		-- Generic stuff.
 		Shared_Sizing(frame, node);
 		Shared_Inject(frame, node.parent, node.injectSelf);
+		Shared_Mixin(frame, node.mixin);
 
 		-- Anchor points
 		if node.points == nil then node.points = { point = "CENTER" }; end
@@ -230,6 +239,7 @@ do
 		-- Generic stuff
 		Shared_Sizing(tex, node);
 		Shared_Inject(tex, frame, node.injectSelf);
+		Shared_Mixin(tex, node.mixin);
 
 		-- Tiling
 		local tileX = node.tile or node.tileX;
@@ -278,6 +288,7 @@ do
 		-- Generic Stuff
 		Shared_Sizing(text, node);
 		Shared_Inject(text, frame, node.injectSelf);
+		Shared_Mixin(text, node.mixin);
 
 		-- Text / Alignment
 		if node.text then text:SetText(node.text); end

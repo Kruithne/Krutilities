@@ -151,6 +151,7 @@ do
 
 	_M.Frame = function(self, node)
 		assert(type(node) == "table", "Krutilities:Frame called with invalid constructor table.");
+		Shared_Mixin(node, node.mixin);
 
 		if self ~= _M then
 			node.parent = self;
@@ -179,7 +180,6 @@ do
 		-- Generic stuff.
 		Shared_Sizing(frame, node);
 		Shared_Inject(frame, node.parent, node.injectSelf);
-		Shared_Mixin(frame, node.mixin);
 
 		-- Anchor points
 		if node.points == nil then node.points = { point = "CENTER" }; end
@@ -232,6 +232,7 @@ do
 
 	_M.Texture = function(frame, node)
 		assert(type(node) == "table", "Krutilities:Texture called with invalid constructor table.");
+		Shared_Mixin(node, node.mixin);
 
 		if not node.parent then
 			node.parent = frame ~= _M and frame or UIParent;
@@ -243,7 +244,6 @@ do
 		-- Generic stuff
 		Shared_Sizing(tex, node);
 		Shared_Inject(tex, frame, node.injectSelf);
-		Shared_Mixin(tex, node.mixin);
 
 		-- Tiling
 		local tileX = node.tile or node.tileX;
@@ -281,6 +281,7 @@ do
 
 	_M.Text = function(frame, node)
 		assert(type(node) == "table", "Krutilities:Text called with invalid constructor table.");
+		Shared_Mixin(node, node.mixin);
 
 		if not node.parent then
 			node.parent = frame ~= _M and frame or UIParent;
@@ -292,7 +293,6 @@ do
 		-- Generic Stuff
 		Shared_Sizing(text, node);
 		Shared_Inject(text, frame, node.injectSelf);
-		Shared_Mixin(text, node.mixin);
 
 		-- Text / Alignment
 		if node.text then text:SetText(node.text); end

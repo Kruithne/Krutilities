@@ -1,0 +1,10 @@
+## Interface: 70000
+## Title: Krutilities
+## Notes: World of Warcraft Add-On Framework
+## Author: Kruithne
+## Version: 1.0.0
+
+## X-License: All Rights Reserved. Modifications welcome on GitHub: https://github.com/Kruithne/Krutilities
+## X-GitHub-Repo: Kruithne/Krutilities
+
+Krutilities.lua

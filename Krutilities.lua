@@ -1,5 +1,5 @@
 do
-	local _M = { Version = 1.5 };
+	local _M = { Version = 1.6 };
 
 	if Krutilities and Krutilities.Version >= _M.Version then
 		-- Newer/equal version already loaded.
@@ -95,6 +95,22 @@ do
 		else
 			-- No children, treat as a single object.
 			Shared_CreateChild(childFunc, frame, node);
+		end
+	end
+
+	local ProcessColor = function(color, ...)
+		if type(color) == "table" then
+			if color.r then
+				-- Color object.
+				return color.r or 0, color.g or 0, color.b or 0, color.a or 1;
+			else
+				-- Generic Table.
+				return color[1] or 0, color[2] or 0, color[3] or 0, color[4] or 1;
+			end
+		else
+			-- Static values.
+			local g, b, a = ...;
+			return color or 0, g or 0, b or 0, a or 1;
 		end
 	end
 
@@ -263,11 +279,7 @@ do
 
 		-- Colour filter
 		if node.color then
-			local r = node.color.r or node.color[1] or 0;
-			local g = node.color.g or node.color[2] or 0;
-			local b = node.color.b or node.color[3] or 0;
-			local a = node.color.a or node.color[4] or 1;
-
+			local r, g, b, a = ProcessColor(node.color);
 			tex:SetVertexColor(r, g, b, a);
 		end
 
@@ -302,11 +314,7 @@ do
 
 		-- Colouring
 		if node.color then
-			local r = node.color.r or node.color[1] or 0;
-			local g = node.color.g or node.color[2] or 0;
-			local b = node.color.b or node.color[3] or 0;
-			local a = node.color.a or node.color[4] or 1;
-
+			local r, g, b, a = ProcessColor(node.color);
 			text:SetTextColor(r, g, b, a);
 		end
 

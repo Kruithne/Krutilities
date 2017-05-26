@@ -271,6 +271,9 @@ do
 		Shared_Sizing(tex, node);
 		Shared_Inject(tex, frame, node.injectSelf);
 
+		-- Masking
+		if node.mask then tex:SetMask(node.mask); end
+
 		-- Tiling
 		local tileX = node.tile or node.tileX;
 		local tileY = node.tile or node.tileY;

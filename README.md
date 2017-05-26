@@ -84,6 +84,7 @@ For a more in-depth look at how pass-in  creation works, check out the Recursive
 | setAllPoints | bool | If provided all points will be set to match the parent. | ``false`` |
 | backdrop | table | Set the backdrop for the frame. See http://wowprogramming.com/docs/widgets/Frame/SetBackdrop | |
 | backdropColor | table, color | Set the shading color for the backdrop | |
+| backdropBorderColor | table, color | Set the shading color for the backdrop border | |
 | data | table | Selection of values/references to inject into the frame in a key/value fashion. ``{ test = true }`` will produce ``frame.test; -- true`` | |
 | multiLine | bool | Set if this is a multi-line frame. Only works for ``EDITBOX`` frames. | ``false`` |
 | autoFocus | bool | Set if this frame should auto-focus. Only works for ``EDITBOX`` frames. | ``false`` |

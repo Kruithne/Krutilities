@@ -204,10 +204,15 @@ do
 
 		-- Backdrop
 		if node.backdrop then frame:SetBackdrop(node.backdrop); end
-		
+
 		if node.backdropColor then
 			local r, g, b, a = ProcessColor(node.backdropColor);
 			frame:SetBackdropColor(r, g, b, a);
+		end
+
+		if node.backdropBorderColor then
+			local r, g, b, a = ProcessColor(node.backdropBorderColor);
+			frame:SetBackdropBorderColor(r, g, b, a);
 		end
 
 		-- Data

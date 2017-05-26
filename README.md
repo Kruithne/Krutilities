@@ -213,7 +213,7 @@ A quick-and-dirty short-cut for creating an event handler. This is aimed to save
 -- Example: EventHandler usage.
 local K = Krutilities;
 local myAddon = {
-	onAddonLoaded = function(addonName)
+	onAddonLoaded = function(self, addonName)
 		-- Do some things.
 	end
 };

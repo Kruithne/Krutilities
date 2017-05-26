@@ -1,5 +1,5 @@
 do
-	local _M = { Version = 1.4 };
+	local _M = { Version = 1.5 };
 
 	if Krutilities and Krutilities.Version >= _M.Version then
 		-- Newer/equal version already loaded.
@@ -143,7 +143,7 @@ do
 		end
 
 		eventFrame:SetScript("OnEvent", function(self, event, ...)
-			addon[events[event]](...);
+			addon[events[event]](addon, ...);
 		end);
 
 		return eventFrame;

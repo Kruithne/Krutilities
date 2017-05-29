@@ -71,7 +71,7 @@ do
 		if node.buttonTex then
 			if node.buttonTex == "PUSHED" then
 				frame:SetPushedTexture(new);
-			elseif node.buttonText = "NORMAL" then
+			elseif node.buttonTex == "NORMAL" then
 				frame:SetNormalTexture(new);
 			elseif node.buttonTex == "HIGHLIGHT" then
 				frame:SetHighlightTexture(new);

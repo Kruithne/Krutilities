@@ -109,6 +109,7 @@ For a more in-depth look at how pass-in  creation works, check out the Recursive
 | size | int, table | Short-cut for width/height. If table, usage is ``{width,height}``. If int, value will be used for both width and height. | |
 | injectSelf | string | Inject the created texture into the parent with the given key. If ``injectSelf`` is ``tex`` then ``parent.tex`` will be a reference to the new texture. ||
 | mask | string | Mask texture. | |
+| buttonTex | string | Apply this texture as a button texture, e.g PUSHED or HIGHLIGHT. | |
 | blendMode | string | Texture blending mode | |
 | tile | bool | If set, the texture will tile both horizontally and vertically. | ``false`` |
 | tileX | bool | If set, the texture will tile horizontally. Has no effect if ``tile`` is set. | ``false`` |

@@ -282,6 +282,11 @@ do
 		tex:SetVertTile(tileY);
 		tex:SetTexture(node.texture, tileX, tileY);
 
+		-- Texture blending
+		if node.blendMode then
+			tex:SetBlendMode(node.blendMode);
+		end
+
 		-- Anchor points
 		if node.points == nil and node.setAllPoints ~= false then
 			node.setAllPoints = true;

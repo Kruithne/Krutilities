@@ -222,12 +222,6 @@ do
 			end
 		end
 
-		-- Button stuff
-		if node.type == "BUTTON" then
-			if node.pushedTexture then frame:SetPushedTexture(node.pushedTexture); end
-			if node.highlightTexture then frame:SetHighlightTexture(node.highlightTexture); end
-		end
-
 		-- Editbox Stuff
 		if node.type == "EDITBOX" then
 			if node.multiLine then frame:SetMultiLine(true); else frame:SetMultiLine(false); end
@@ -238,6 +232,12 @@ do
 		Shared_HandleChildren(frame, _M.Texture, node.textures);
 		Shared_HandleChildren(frame, _M.Frame, node.frames);
 		Shared_HandleChildren(frame, _M.Text, node.texts);
+
+		-- Button stuff
+		if node.type == "BUTTON" then
+			if node.pushedTexture then frame:SetPushedTexture(node.pushedTexture); end
+			if node.highlightTexture then frame:SetHighlightTexture(node.highlightTexture); end
+		end
 
 		-- Scripts
 		if node.scripts then

@@ -237,9 +237,9 @@ do
 
 		-- Button stuff
 		if node.type == "BUTTON" then
+			if node.normalTexture then frame:SetNormalTexture(node.normalTexture); end
 			if node.pushedTexture then frame:SetPushedTexture(node.pushedTexture); end
 			if node.highlightTexture then frame:SetHighlightTexture(node.highlightTexture); end
-			if node.normalTexture then frame:SetNormalTexture(node.normalTexture); end
 		end
 
 		-- Scripts

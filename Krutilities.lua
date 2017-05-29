@@ -222,6 +222,12 @@ do
 			end
 		end
 
+		-- Button stuff
+		if node.type == "BUTTON" then
+			if node.pushedTexture then frame:SetPushedTexture(node.pushedTexture); end
+			if node.highlightTexture then frame:SetHighlightTexture(node.highlightTexture); end
+		end
+
 		-- Editbox Stuff
 		if node.type == "EDITBOX" then
 			if node.multiLine then frame:SetMultiLine(true); else frame:SetMultiLine(false); end

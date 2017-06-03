@@ -194,6 +194,20 @@ do
 		return eventFrame;
 	end
 
+	-- [[ Command Handler Creation Utility ]] --
+	_M.CommandHandler = function(addon, commands)
+		for id, data in commands do
+			local prefix = "SLASH_" .. id;
+
+			-- Command global assignments.
+			for i = 1, #data.commands do
+				_G[prefix .. i] = data.commands[i];
+			end
+
+			SlashCmdList[id] = addon[data.handler];
+		end
+	end
+
 	_M.Frame = function(self, node)
 		assert(type(node) == "table", "Krutilities:Frame called with invalid constructor table.");
 		Shared_Mixin(node, node.mixin);

@@ -1,15 +1,42 @@
 do
-	local _M = { Version = 1.6 };
+	-- [[ Addon Bootstrapping ]] --
+	Krutilities = Krutilities or {};
+	local _M = { Version = 1.7 };
+	local _K = Krutilities;
 
-	if Krutilities and Krutilities.Version >= _M.Version then
-		-- Newer/equal version already loaded.
+	if _K[_M.Version] then
+		-- This version has already been registered.
 		return;
 	end
+
+	Krutilities[_M.Version] = _M;
 
 	-- [[ Optimization ]] --
 	local type = type;
 	local pairs = pairs;
 	local CreateFrame = CreateFrame;
+
+	-- [[ Global Request Function ]] --
+	GetKrutilities = function(version)
+		-- Provide requested version or throw error.
+		if version then
+			assert(Krutilities[version], "Krutilities: Version " .. version .. " requested but not loaded.");
+			return Krutilities[version];
+		end
+
+		-- No version was provided, provide latest.
+		local latestVersion = 0;
+		local latestContainer = nil;
+
+		for version, container in pairs(_K) do
+			if latestVersion == 0 or version > latestVersion then
+				latestVersion = version;
+				latestContainer = container;
+			end
+		end
+
+		return latestContainer;
+	end
 
 	-- [[ Local Functions ]] --
 	local Shared_ProcessPoints = function(target, points, parent)
@@ -351,7 +378,4 @@ do
 
 		return text;
 	end
-
-	-- Expose module to global scope.
-	Krutilities = _M;
 end

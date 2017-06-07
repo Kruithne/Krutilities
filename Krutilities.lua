@@ -264,6 +264,11 @@ do
 			frame:SetBackdropBorderColor(r, g, b, a);
 		end
 
+		-- Model
+		if node.displayID then
+			frame:SetDisplayInfo(node.displayID);
+		end
+
 		-- Data
 		if node.data then
 			for key, value in pairs(node.data) do

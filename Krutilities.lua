@@ -92,6 +92,12 @@ do
 		end
 	end
 
+	local Shared_DrawLayer = function(frame, node)
+		if node.layer then
+			frame:SetDrawLayer(node.layer, node.subLevel or 0);
+		end
+	end
+
 	local Shared_CreateChild = function(createFunc, frame, node)
 		local new = createFunc(frame, node);
 		
@@ -239,6 +245,7 @@ do
 		-- Generic stuff.
 		Shared_Sizing(frame, node);
 		Shared_Inject(frame, node.parent, node.injectSelf);
+		Shared_DrawLayer(frame, node);
 
 		-- Anchor points
 		if node.points == nil then node.points = { point = "CENTER" }; end
@@ -320,6 +327,7 @@ do
 		-- Generic stuff
 		Shared_Sizing(tex, node);
 		Shared_Inject(tex, frame, node.injectSelf);
+		Shared_DrawLayer(frame, node);
 
 		-- Masking
 		if node.mask then tex:SetMask(node.mask); end
@@ -373,6 +381,7 @@ do
 		-- Generic Stuff
 		Shared_Sizing(text, node);
 		Shared_Inject(text, frame, node.injectSelf);
+		Shared_DrawLayer(frame, node);
 
 		-- Text / Alignment
 		if node.text then text:SetText(node.text); end

@@ -196,7 +196,7 @@ do
 
 	-- [[ Command Handler Creation Utility ]] --
 	_M.CommandHandler = function(addon, commands)
-		for id, data in commands do
+		for id, data in pairs(commands) do
 			local prefix = "SLASH_" .. id;
 
 			-- Command global assignments.

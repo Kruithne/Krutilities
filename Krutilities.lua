@@ -269,6 +269,7 @@ do
 		if node.animTargetDist then frame:SetTargetDistance(node.animTargetDist); end
 		if node.animHeightFactor then frame:SetHeightFactor(node.animHeightFactor); end
 		if node.facing then frame:SetFacing(node.facing); end
+		if node.animation then frame:SetAnimation(node.animation); end
 
 		-- Data
 		if node.data then

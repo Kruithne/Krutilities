@@ -245,7 +245,6 @@ do
 		-- Generic stuff.
 		Shared_Sizing(frame, node);
 		Shared_Inject(frame, node.parent, node.injectSelf);
-		Shared_DrawLayer(frame, node);
 
 		-- Anchor points
 		if node.points == nil then node.points = { point = "CENTER" }; end

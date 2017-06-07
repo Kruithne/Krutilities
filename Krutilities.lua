@@ -265,9 +265,10 @@ do
 		end
 
 		-- Model
-		if node.displayID then
-			frame:SetDisplayInfo(node.displayID);
-		end
+		if node.displayID then frame:SetDisplayInfo(node.displayID); end
+		if node.animTargetDist then frame:SetTargetDistance(node.animTargetDist); end
+		if node.animHeightFactor then frame:SetHeightFactor(node.animHeightFactor); end
+		if node.facing then frame:SetFacing(node.facing); end
 
 		-- Data
 		if node.data then

@@ -97,6 +97,10 @@ For a more in-depth look at how pass-in  creation works, check out the Recursive
 | scripts | table | Set script handlers for the frame. Each table key is the event, ie ``OnShow``, with the value being the handler function for said event. | |
 | enableMouse | bool | If set, the frame will accept mouse input. | ``false `` |
 | displayID | int | Display ID for PlayerModel frames. | | 
+| animation | int | Index of animation to play for PlayerModel frames. | |
+| animTargetDist | int | Set the target distance for a PlayerModel. | |
+| animHeightFactor | int | Set the height factor for a PlayerModel. | |
+| facing | int | Set the direction a PlayerModel should be facing. | |
 
 **Constructor Reference for Textures**
 

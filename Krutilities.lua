@@ -1,7 +1,7 @@
 do
 	-- [[ Addon Bootstrapping ]] --
 	Krutilities = Krutilities or {};
-	local _M = { Version = 1.7 };
+	local _M = { Version = 1.8 };
 	local _K = Krutilities;
 
 	if _K[_M.Version] then
@@ -178,11 +178,11 @@ do
 	-- [[ Dump an object using Blizzard's debugging tool ]] --
 	_M.Dump = function(input)
 		if type(input) ~= "string" then
-			_M._TEMP = input;
+			_K._TEMP = input;
 			input = "Krutilities._TEMP";
 		end
 		SlashCmdList["DUMP"](input);
-		_M._TEMP = nil;
+		_K._TEMP = nil;
 	end
 
 	-- [[ Event handler creation utility ]] --

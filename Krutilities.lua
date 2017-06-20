@@ -339,12 +339,7 @@ do
 		if node.mask then tex:SetMask(node.mask); end
 
 		-- Tiling
-		local tileX = node.tile or node.tileX;
-		local tileY = node.tile or node.tileY;
-
-		tex:SetHorizTile(tileX);
-		tex:SetVertTile(tileY);
-		tex:SetTexture(node.texture, tileX, tileY);
+		tex:SetTexture(node.texture, node.tile or node.tileX, node.tile or node.tileY);
 
 		-- Texture blending
 		if node.blendMode then
@@ -368,6 +363,7 @@ do
 		-- Tex coords.
 		if node.texCoord then
 			tex:SetTexCoord(node.texCoord[1], node.texCoord[2], node.texCoord[3], node.texCoord[4]);
+			_M.Dump(tex:GetTexCoord());
 		end
 
 		return tex;

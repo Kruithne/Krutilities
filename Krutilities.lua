@@ -188,14 +188,29 @@ do
 	-- [[ Event handler creation utility ]] --
 	_M.EventHandler = function(addon, events)
 		local eventFrame = CreateFrame("FRAME");
+		local frameUpdateEvent = nil;
 
 		for eventName, funcName in pairs(events) do
-			eventFrame:RegisterEvent(eventName);
+			if eventName == "FRAME_UPDATE" then
+				-- Frame update event.
+				frameUpdateEvent = funcName;
+			else
+				-- Normal events.
+				eventFrame:RegisterEvent(eventName);
+			end
 		end
 
+		-- Add normal event delegate function.
 		eventFrame:SetScript("OnEvent", function(self, event, ...)
 			addon[events[event]](addon, ...);
 		end);
+
+		if frameUpdateEvent then
+			-- Add frame update delegate function.
+			eventFrame:SetScript("OnUpdate", function(self, elapsed)
+				addon[frameUpdateEvent](addon, elapsed);
+			end);
+		end
 
 		return eventFrame;
 	end

@@ -363,7 +363,6 @@ do
 		-- Tex coords.
 		if node.texCoord then
 			tex:SetTexCoord(node.texCoord[1], node.texCoord[2], node.texCoord[3], node.texCoord[4]);
-			_M.Dump(tex:GetTexCoord());
 		end
 
 		return tex;

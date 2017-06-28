@@ -234,22 +234,27 @@ do
 		assert(type(node) == "table", "Krutilities:Frame called with invalid constructor table.");
 		Shared_Mixin(node, node.mixin);
 
+		local parent = node.parent;
 		if self ~= _M then
-			node.parent = self;
+			parent = self;
 		end
 
-		if node.parentName then node.name = "$parent" .. node.parentName; end
-		if node.parent then
+		local name = node.name;
+		if node.parentName then
+			name = "$parent" .. node.parentName;
+		end
+
+		if parent then
 			-- Parent cannot be string, attempt a global lookup.
-			if type(node.parent) == "string" then
-				node.parent = _G[node.parent];
+			if type(parent) == "string" then
+				parent = _G[parent];
 			end
 		else
 			-- Default to UIParent.
-			node.parent = UIParent;
+			parent = UIParent;
 		end
 
-		local frame = CreateFrame(node.type or "FRAME", node.name, node.parent, node.inherit);
+		local frame = CreateFrame(node.type or "FRAME", name, parent, node.inherit);
 
 		if node.hidden then frame:Hide(); end
 		if node.enableMouse then frame:EnableMouse(); end
@@ -260,11 +265,14 @@ do
 
 		-- Generic stuff.
 		Shared_Sizing(frame, node);
-		Shared_Inject(frame, node.parent, node.injectSelf);
+		Shared_Inject(frame, parent, node.injectSelf);
 
 		-- Anchor points
-		if node.points == nil then node.points = { point = "CENTER" }; end
-		Shared_ProcessPoints(frame, node.points, node.parent);
+		local points = node.points;
+		if points == nil then
+			points = { point = "CENTER" };
+		end
+		Shared_ProcessPoints(frame, points, parent);
 		if node.setAllPoints then frame:SetAllPoints(true); end
 
 		-- Backdrop
@@ -339,12 +347,17 @@ do
 		assert(type(node) == "table", "Krutilities:Texture called with invalid constructor table.");
 		Shared_Mixin(node, node.mixin);
 
-		if not node.parent then
-			node.parent = frame ~= _M and frame or UIParent;
+		local parent = node.parent;
+		if not parent then
+			parent = frame ~= _M and frame or UIParent;
 		end
 
-		if node.parentName then node.name = "$parent" .. node.parentName; end
-		local tex = node.parent:CreateTexture(node.name, node.layer, node.inherit, node.subLevel or 0);
+		local name = node.name;
+		if node.parentName then
+			name = "$parent" .. node.parentName;
+		end
+
+		local tex = parent:CreateTexture(name, node.layer, node.inherit, node.subLevel or 0);
 
 		-- Generic stuff
 		Shared_Sizing(tex, node);
@@ -363,12 +376,13 @@ do
 		end
 
 		-- Anchor points
-		if node.points == nil and node.setAllPoints ~= false then
-			node.setAllPoints = true;
+		local setAllPoints = node.setAllPoints;
+		if node.points == nil and setAllPoints ~= false then
+			setAllPoints = true;
 		end
 		
 		Shared_ProcessPoints(tex, node.points, frame);
-		if node.setAllPoints then tex:SetAllPoints(true); end
+		if setAllPoints then tex:SetAllPoints(true); end
 
 		-- Colour filter
 		if node.color then
@@ -393,12 +407,17 @@ do
 		assert(type(node) == "table", "Krutilities:Text called with invalid constructor table.");
 		Shared_Mixin(node, node.mixin);
 
-		if not node.parent then
-			node.parent = frame ~= _M and frame or UIParent;
+		local parent = node.parent;
+		if not parent then
+			parent = frame ~= _M and frame or UIParent;
 		end
 
-		if node.parentName then node.name = "$parent" .. node.parentName; end
-		local text = frame:CreateFontString(node.name, node.layer, node.inherit);
+		local name = node.name;
+		if node.parentName then
+			name = "$parent" .. node.parentName;
+		end
+
+		local text = frame:CreateFontString(name, node.layer, node.inherit);
 
 		-- Generic Stuff
 		Shared_Sizing(text, node);

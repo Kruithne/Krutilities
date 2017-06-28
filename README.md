@@ -126,6 +126,7 @@ For a more in-depth look at how pass-in  creation works, check out the Recursive
 | points | table | See anchoring reference in this document. | All points set. |
 | setAllPoints | bool | If set, all points will match the parent. Setting to ``false`` will disable default behavior of ``points``; leaving omitted will not. | ``true`` if ``points`` is omitted, else ``false`` |
 | color | table | Specifies vertex colouring. Formats: ``{r: 0, g: 0, b: 0, a: 1}`` or ``{0, 0, 0, 1}``.| Omitted values default to ``0`` (alpha defaults to ``1``).
+| desaturate | bool | If provided, the texture will be desaturated | ``false`` |
 | texCoord | table | Sets the texture co-ordinates. Format: ``{left,right,top,bottom}``. | ``{0, 1, 0, 1}`` |
 
 **Constructor Reference for Text**

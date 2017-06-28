@@ -15,6 +15,7 @@ do
 	local type = type;
 	local pairs = pairs;
 	local CreateFrame = CreateFrame;
+	local SetDesaturation = SetDesaturation;
 
 	-- [[ Global Request Function ]] --
 	GetKrutilities = function(version)
@@ -176,7 +177,7 @@ do
 	end
 
 	-- [[ Dump an object using Blizzard's debugging tool ]] --
-	_M.Dump = function(input)
+	_M.Dump = function(input, func)
 		if type(input) ~= "string" then
 			_K._TEMP = input;
 			input = "Krutilities._TEMP";
@@ -373,6 +374,11 @@ do
 		if node.color then
 			local r, g, b, a = ProcessColor(node.color);
 			tex:SetVertexColor(r, g, b, a);
+		end
+
+		-- Desaturation
+		if node.desaturate then
+			SetDesaturation(tex, 1);
 		end
 
 		-- Tex coords.

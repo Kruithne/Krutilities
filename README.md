@@ -213,6 +213,24 @@ Invokes the behavior of the ``/dump`` command included in ``Blizzard_DebugTools`
 | ---------- | ---- | ----------- | ------- |
 | obj | anything | Object or value to dump. | *Required*
 
+**Factory**
+
+Creates a self-recycling factory.
+>**Syntax**: K:Factory(*data*);
+
+| Parameter  | Type | Description | Default |
+| ---------- | ---- | ----------- | ------- |
+| data | table | Frame generation data. | *Required*
+
+Factories provide the following functions.
+
+| Parameter  | Description |
+| ---------- | ----------- |
+| Generate | Generate a new frame using the data table |
+| Recycle | Mark the given region as dirty, allowing it to be recycled |
+| GetRegions | Return the internal table of all active regions |
+| RecycleAll | Marks all regions as dirty, allowing them to be recycled |
+
 **EventHandler**
 
 A quick-and-dirty short-cut for creating an event handler. This is aimed to save some time when creating smaller add-ons; if you're creating a larger, more intensive add-on, creating a tailored event handler would be more ideal.

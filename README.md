@@ -222,7 +222,11 @@ Creates a self-recycling factory.
 | ---------- | ---- | ----------- | ------- |
 | data | table | Frame generation data. | *Required*
 
-Factories provide the following functions.
+Using ``factory:Generate()``, a frame will be either created new, or a recycled frame will be given. It's important to note that if you specify the ``name`` variable in the data table, Lua errors will occur after the first generation. To prevent this, the key ``factoryName`` can be used in the data table. This name will be used for all frames generated, appending an auto-incrementing index to prevent collisions.
+
+Another important aspect to note is that these factories do not attempt to scrub any data from recycled regions provided. Care should be taken to ensure any dynamic aspects are updated or reset, otherwise unexpected artifacts may occur when using recycled regions.
+
+Factories provide the following functions once constructed.
 
 | Parameter  | Description |
 | ---------- | ----------- |

@@ -216,7 +216,7 @@ Invokes the behavior of the ``/dump`` command included in ``Blizzard_DebugTools`
 **Factory**
 
 Creates a self-recycling factory.
->**Syntax**: K:Factory(*data*);
+>**Syntax**: K.Factory(*data*);
 
 | Parameter  | Type | Description | Default |
 | ---------- | ---- | ----------- | ------- |

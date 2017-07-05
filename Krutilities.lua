@@ -233,20 +233,7 @@ do
 	end
 
 	--[[ Factory Functions ]]--
-	_M.Factory = function(self, data)
-		return {
-			_addon = self,
-			_data = data,
-			_disposed = {},
-			_regions = {},
-			Generate = self.Factory_Generate,
-			Recycle = self.Factory_Recycle,
-			GetRegions = self.Factory_GetRegions,
-			RecycleAll = self.Factory_RecycleAll
-		};
-	end
-
-	_M.Factory_Generate = function(self)
+	local Factory_Generate = function(self)
 		local dumpster = self._disposed;
 		local frame = nil;
 
@@ -263,18 +250,18 @@ do
 				self._index = index + 1; -- Increase creation index.
 			end
 
-			frame = self.addon:Frame(self._data);
+			frame = _M:Frame(self._data);
 		end
 
 		tableinsert(self._regions, frame);
 		return frame;
 	end
 
-	_M.Factory_GetRegions = function(self)
+	local Factory_GetRegions = function(self)
 		return self._regions;
 	end
 
-	_M.Factory_RecycleAll = function(self)
+	local Factory_RecycleAll = function(self)
 		local dumpster = self._disposed;
 		local regions = self._regions;
 
@@ -286,9 +273,21 @@ do
 		self._regions = {}; -- Reset region table.
 	end
 
-	_M.Factory_Recycle = function(self, region)
+	local Factory_Recycle = function(self, region)
 		tableinsert(self._disposed, region);
 		tableremove(self._regions, region);
+	end
+
+	_M.Factory = function(data)
+		return {
+			_data = data,
+			_disposed = {},
+			_regions = {},
+			Generate = self.Factory_Generate,
+			Recycle = self.Factory_Recycle,
+			GetRegions = self.Factory_GetRegions,
+			RecycleAll = self.Factory_RecycleAll
+		};
 	end
 
 	--[[ UI Generation Functions ]]--

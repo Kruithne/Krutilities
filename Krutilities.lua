@@ -283,7 +283,7 @@ do
 			_data = data,
 			_disposed = {},
 			_regions = {},
-			Generate = _Factory_Generate,
+			Generate = Factory_Generate,
 			Recycle = Factory_Recycle,
 			GetRegions = Factory_GetRegions,
 			RecycleAll = Factory_RecycleAll

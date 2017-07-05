@@ -19,6 +19,9 @@ do
 	local CreateFrame = CreateFrame;
 	local SetDesaturation = SetDesaturation;
 
+	local TYPE_NUMBER = "number";
+	local TYPE_TABLE = "table";
+
 	-- [[ Global Request Function ]] --
 	GetKrutilities = function(version)
 		-- Provide requested version or throw error.
@@ -274,8 +277,23 @@ do
 	end
 
 	local Factory_Recycle = function(self, region)
+		-- Insert region reference into dumpster.
 		tableinsert(self._disposed, region);
-		tableremove(self._regions, region);
+
+		local regionType = type(region);
+		if regionType == TYPE_NUMBER then
+			-- Index given for fast-track removal.
+			tableremove(self._regions, region);
+		elseif regionType == TYPE_TABLE then
+			-- Attempt to find the specific region reference.
+			local regions = self._regions;
+			for i = 1, #regions do
+				if regions[i] == region then
+					tableremove(regions, i);
+					return;
+				end
+			end
+		end
 	end
 
 	_M.Factory = function(data)

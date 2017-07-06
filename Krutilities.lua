@@ -249,7 +249,7 @@ do
 			-- If factory name is provided, generate incremented name.
 			if data.factoryName then
 				local index = self._index or 1;
-				data.name = data.FactoryName .. index;
+				data.name = data.factoryName .. index;
 				self._index = index + 1; -- Increase creation index.
 			end
 

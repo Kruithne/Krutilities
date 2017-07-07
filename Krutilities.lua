@@ -14,6 +14,8 @@ do
 	-- [[ Optimization ]] --
 	local type = type;
 	local pairs = pairs;
+	local tan = tan; -- Not the same as math.tan.
+	local floor = math.floor;
 	local tableinsert = table.insert;
 	local tableremove = table.remove;
 	local CreateFrame = CreateFrame;
@@ -520,5 +522,203 @@ do
 		Shared_ProcessPoints(text, node.points, frame);
 
 		return text;
+	end
+
+	-- [[ Circular Progress ]] --
+	-- [[ Based on code/concepts by Semlar and Infus ]] --
+	local defaultTexCoord = { ULx = 0, ULy = 0, LLx = 0, LLy = 1, URx = 1, URy = 0, LRx = 1, LRy = 1 };
+	local pointOrder = { "LL", "UL", "UR", "LR", "LL", "UL", "UR", "LR", "LL", "UL", "UR", "LR" };
+
+	local exactAngles = {
+		{0.5, 0},  -- 0°
+		{1, 0},    -- 45°
+		{1, 0.5},  -- 90°
+		{1, 1},    -- 135°
+		{0.5, 1},  -- 180°
+		{0, 1},    -- 225°
+		{0, 0.5},  -- 270°
+		{0, 0}     -- 315°
+	};
+
+	local angleToCoord = function(angle)
+		angle = angle % 360;
+
+		if angle % 45 == 0 then
+			local index = floor(angle / 45) + 1;
+			return exactAngles[index][1], exactAngles[index][2];
+		end
+
+		if (angle < 45) then
+			return 0.5 + tan(angle) / 2, 0;
+		elseif (angle < 135) then
+			return 1, 0.5 + tan(angle - 90) / 2 ;
+		elseif (angle < 225) then
+			return 0.5 - tan(angle) / 2, 1;
+		elseif (angle < 315) then
+			return 0, 0.5 - tan(angle - 90) / 2;
+		elseif (angle < 360) then
+			return 0.5 + tan(angle) / 2, 0;
+		end
+	end
+
+	local CircularTexture_Coord_SetAngle = function(self, angle1, angle2)
+		--TestFrame:SetProgress(0, 30)
+
+		local index = floor((angle1 + 45) / 90); -- 0
+
+		local middleCorner = pointOrder[index + 1];
+	    local startCorner = pointOrder[index + 2];
+	    local endCorner1 = pointOrder[index + 3];
+	    local endCorner2 = pointOrder[index + 4];
+
+	    self:MoveCorner(middleCorner, 0.5, 0.5);
+	    self:MoveCorner(startCorner, angleToCoord(angle1));
+
+	    local edge1 = floor((angle1 - 45) / 90);
+	    local edge2 = floor((angle2 - 45) / 90);
+
+	    if edge1 == edge2 then
+	      self:MoveCorner(endCorner1, angleToCoord(angle2));
+	    else
+	      self:MoveCorner(endCorner1, defaultTexCoord[endCorner1 .. "x"], defaultTexCoord[endCorner1 .. "y"]);
+	    end
+
+	    self:MoveCorner(endCorner2, angleToCoord(angle2));
+	end
+
+	local CircularTexture_Coord_MoveCorner = function(self, corner, x, y)
+		local width, height = self.texture:GetSize();
+		local rx = defaultTexCoord[corner .. "x"] - x;
+		local ry = defaultTexCoord[corner .. "y"] - y;
+
+		self[corner .. "vx"] = -rx * width;
+		self[corner .. "vy"] = ry * height;
+		self[corner .. "x"] = x;
+		self[corner .. "y"] = y;
+	end
+
+	local CircularTexture_Coord_Apply = function(self)
+		local texture = self.texture;
+		texture:SetVertexOffset(UPPER_RIGHT_VERTEX, self.URvx, self.URvy);
+		texture:SetVertexOffset(UPPER_LEFT_VERTEX, self.ULvx, self.ULvy);
+		texture:SetVertexOffset(LOWER_RIGHT_VERTEX, self.LRvx, self.LRvy);
+		texture:SetVertexOffset(LOWER_LEFT_VERTEX, self.LLvx, self.LLvy);
+
+		texture:SetTexCoord(self.ULx, self.ULy, self.LLx, self.LLy, self.URx, self.URy, self.LRx, self.LRy);
+	end
+
+	local CircularTexture_Coord_SetFull = function(self)
+	    self.ULx = 0;
+		self.ULy = 0;
+		self.LLx = 0;
+		self.LLy = 1;
+		self.URx = 1;
+		self.URy = 0;
+		self.LRx = 1;
+		self.LRy = 1;
+
+		self.ULvx = 0;
+		self.ULvy = 0;
+		self.LLvx = 0;
+		self.LLvy = 0;
+		self.URvx = 0;
+		self.URvy = 0;
+		self.LRvx = 0;
+		self.LRvy = 0;
+	end
+
+	local CircularTexture_Show = function(self)
+		self:Apply();
+		self.texture:Show();
+	end
+
+	local CircularTexture_Hide = function(self)
+		self.texture:Hide();
+	end
+
+	local CircularTexture_CreateCoord = function(texture)
+		return {
+			ULx = 0, ULy = 0, LLx = 0, LLy = 1, URx = 1, URy = 0, LRx = 1, LRy = 1,
+		    ULvx = 0, ULvy = 0, LLvx = 0, LLvy = 0, URvx = 0, URvy = 0, LRvx = 0, LRvy = 0,
+
+		    texture = texture,
+
+		    -- Helper functions
+		    Show = CircularTexture_Show,
+		    Hide = CircularTexture_Hide,
+		    Apply = CircularTexture_Coord_Apply,
+		    SetFull = CircularTexture_Coord_SetFull,
+		    SetAngle = CircularTexture_Coord_SetAngle,
+		    MoveCorner = CircularTexture_Coord_MoveCorner,
+		};
+	end
+
+	local CircularTexture_SetProgress = function(self, angle1, angle2)
+		local coords = self._coords;
+
+		-- Full progress, show the full texture.
+		if angle2 - angle1 >= 360 then
+			coords[1]:SetFull();
+			coords[1]:Show();
+
+			coords[2]:Hide();
+			coords[3]:Hide();
+			return;
+		end
+
+		-- No angle difference, show nothing.
+		if angle1 == angle2 then
+			for i = 1, 3 do
+				coords[i]:Hide();
+			end
+			return;
+		end
+
+		local index1 = floor((angle1 + 45) / 90); -- 0
+		local index2 = floor((angle2 + 45) / 90); -- 0
+
+		if index1 + 1 >= index2 then
+			coords[1]:SetAngle(angle1, angle2);
+			coords[1]:Show();
+
+			coords[2]:Hide();
+			coords[3]:Hide();
+		elseif index1 + 3 >= index2 then
+			local firstEndAngle = (index1 + 1) * 90 + 45;
+			coords[1]:SetAngle(angle1, firstEndAngle);
+			coords[1]:Show();
+
+			coords[2]:SetAngle(firstEndAngle, angle2);
+			coords[2]:Show();
+
+			coords[3]:Hide();
+		else
+			local firstEndAngle = (index1 + 1) * 90 + 45;
+			local secondEndAngle = firstEndAngle + 180;
+
+			coords[1]:SetAngle(angle1, firstEndAngle);
+			coords[1]:Show();
+
+			coords[2]:SetAngle(firstEndAngle, secondEndAngle);
+			coords[2]:Show();
+
+			coords[3]:SetAngle(secondEndAngle, angle2);
+			coords[3]:Show();
+		end
+	end
+
+	_M.CircularTexture = function(self, frameData, textureData)
+		local frame = self:Frame(frameData);
+		frame._textures = {};
+		frame._coords = {};
+		frame.SetProgress = CircularTexture_SetProgress;
+
+		for i = 1, 3 do
+			local texture = frame:SpawnTexture(textureData);
+			frame._textures[i] = texture;
+			frame._coords[i] = CircularTexture_CreateCoord(texture);
+		end
+
+		return frame;
 	end
 end

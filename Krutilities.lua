@@ -531,13 +531,13 @@ do
 
 	local exactAngles = {
 		{0.5, 0},  -- 0°
-		{1, 0},    -- 45°
+		{1, 0},	-- 45°
 		{1, 0.5},  -- 90°
-		{1, 1},    -- 135°
+		{1, 1},	-- 135°
 		{0.5, 1},  -- 180°
-		{0, 1},    -- 225°
+		{0, 1},	-- 225°
 		{0, 0.5},  -- 270°
-		{0, 0}     -- 315°
+		{0, 0}	 -- 315°
 	};
 
 	local angleToCoord = function(angle)
@@ -567,23 +567,23 @@ do
 		local index = floor((angle1 + 45) / 90); -- 0
 
 		local middleCorner = pointOrder[index + 1];
-	    local startCorner = pointOrder[index + 2];
-	    local endCorner1 = pointOrder[index + 3];
-	    local endCorner2 = pointOrder[index + 4];
+		local startCorner = pointOrder[index + 2];
+		local endCorner1 = pointOrder[index + 3];
+		local endCorner2 = pointOrder[index + 4];
 
-	    self:MoveCorner(middleCorner, 0.5, 0.5);
-	    self:MoveCorner(startCorner, angleToCoord(angle1));
+		self:MoveCorner(middleCorner, 0.5, 0.5);
+		self:MoveCorner(startCorner, angleToCoord(angle1));
 
-	    local edge1 = floor((angle1 - 45) / 90);
-	    local edge2 = floor((angle2 - 45) / 90);
+		local edge1 = floor((angle1 - 45) / 90);
+		local edge2 = floor((angle2 - 45) / 90);
 
-	    if edge1 == edge2 then
-	      self:MoveCorner(endCorner1, angleToCoord(angle2));
-	    else
-	      self:MoveCorner(endCorner1, defaultTexCoord[endCorner1 .. "x"], defaultTexCoord[endCorner1 .. "y"]);
-	    end
+		if edge1 == edge2 then
+		  self:MoveCorner(endCorner1, angleToCoord(angle2));
+		else
+		  self:MoveCorner(endCorner1, defaultTexCoord[endCorner1 .. "x"], defaultTexCoord[endCorner1 .. "y"]);
+		end
 
-	    self:MoveCorner(endCorner2, angleToCoord(angle2));
+		self:MoveCorner(endCorner2, angleToCoord(angle2));
 	end
 
 	local CircularTexture_Coord_MoveCorner = function(self, corner, x, y)
@@ -608,7 +608,7 @@ do
 	end
 
 	local CircularTexture_Coord_SetFull = function(self)
-	    self.ULx = 0;
+		self.ULx = 0;
 		self.ULy = 0;
 		self.LLx = 0;
 		self.LLy = 1;
@@ -639,17 +639,17 @@ do
 	local CircularTexture_CreateCoord = function(texture)
 		return {
 			ULx = 0, ULy = 0, LLx = 0, LLy = 1, URx = 1, URy = 0, LRx = 1, LRy = 1,
-		    ULvx = 0, ULvy = 0, LLvx = 0, LLvy = 0, URvx = 0, URvy = 0, LRvx = 0, LRvy = 0,
+			ULvx = 0, ULvy = 0, LLvx = 0, LLvy = 0, URvx = 0, URvy = 0, LRvx = 0, LRvy = 0,
 
-		    texture = texture,
+			texture = texture,
 
-		    -- Helper functions
-		    Show = CircularTexture_Show,
-		    Hide = CircularTexture_Hide,
-		    Apply = CircularTexture_Coord_Apply,
-		    SetFull = CircularTexture_Coord_SetFull,
-		    SetAngle = CircularTexture_Coord_SetAngle,
-		    MoveCorner = CircularTexture_Coord_MoveCorner,
+			-- Helper functions
+			Show = CircularTexture_Show,
+			Hide = CircularTexture_Hide,
+			Apply = CircularTexture_Coord_Apply,
+			SetFull = CircularTexture_Coord_SetFull,
+			SetAngle = CircularTexture_Coord_SetAngle,
+			MoveCorner = CircularTexture_Coord_MoveCorner,
 		};
 	end
 

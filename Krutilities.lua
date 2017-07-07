@@ -266,21 +266,33 @@ do
 		return self._regions;
 	end
 
-	local Factory_RecycleAll = function(self)
+	local Factory_RecycleAll = function(self, noHide)
 		local dumpster = self._disposed;
 		local regions = self._regions;
 
 		-- Copy all region references to dumpster.
 		for i = 1, #regions do
-			tableinsert(dumpster, regions[i]);
+			local region = regions[i];
+
+			-- Hide regions unless specificed not to.
+			if not noHide then
+				region:Hide();
+			end
+
+			tableinsert(dumpster, region);
 		end
 
 		self._regions = {}; -- Reset region table.
 	end
 
-	local Factory_Recycle = function(self, region)
+	local Factory_Recycle = function(self, region, noHide)
 		-- Insert region reference into dumpster.
 		tableinsert(self._disposed, region);
+
+		-- Hide region unless specified.
+		if not noHide then
+			region:Hide();
+		end
 
 		local regionType = type(region);
 		if regionType == TYPE_NUMBER then

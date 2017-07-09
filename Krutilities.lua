@@ -382,6 +382,7 @@ do
 		end
 
 		-- Model
+		if node.model then frame:SetModel(node.model); end
 		if node.displayID then frame:SetDisplayInfo(node.displayID); end
 		if node.animTargetDist then frame:SetTargetDistance(node.animTargetDist); end
 		if node.animHeightFactor then frame:SetHeightFactor(node.animHeightFactor); end

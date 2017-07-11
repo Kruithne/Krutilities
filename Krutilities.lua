@@ -18,6 +18,7 @@ do
 	local floor = math.floor;
 	local tableinsert = table.insert;
 	local tableremove = table.remove;
+	local tableconcat = table.concat;
 	local CreateFrame = CreateFrame;
 	local SetDesaturation = SetDesaturation;
 
@@ -235,6 +236,24 @@ do
 
 			SlashCmdList[id] = addon[data.handler];
 		end
+	end
+
+	--[[ StringChunk Functions ]]--
+
+	local StringChunk_Set = function(self, index, value)
+		self._values[index] = value;
+	end
+
+	local StringChunk_Get = function(self, sep)
+		return tableconcat(self._values, sep);
+	end
+
+	_M.StringChunk = function(...)
+		return {
+			_values = {...},
+			Set = StringChunk_Set,
+			Get = StringChunk_Get
+		};
 	end
 
 	--[[ Factory Functions ]]--

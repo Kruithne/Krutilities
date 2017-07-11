@@ -214,6 +214,23 @@ Invokes the behavior of the ``/dump`` command included in ``Blizzard_DebugTools`
 | ---------- | ---- | ----------- | ------- |
 | obj | anything | Object or value to dump. | *Required*
 
+**StringChunk**
+
+Using ``table.concat`` is more efficient than constantly joining strings together in loops. For this purpose, ``StringChunk`` is a micro-wrapper for creating a string with components that will be changed constantly.
+
+```
+local myChunk = K.StringChunk("SomePath\\image_", nil, ".jpg");
+for i = 1, 100 do
+	myChunk:Set(2, i);
+	print(myChunk:Get());
+end
+
+-- Output:
+-- SomePath\\image_1.jpg
+-- SomePath\\image_2.jpg
+-- ...
+```
+
 **Factory**
 
 Creates a self-recycling factory.

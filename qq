@@ -1,0 +1,35 @@
+warning: CRLF will be replaced by LF in Krutilities.lua.
+The file will have its original line endings in your working directory.
+[1mdiff --git a/Krutilities.lua b/Krutilities.lua[m
+[1mindex 142b039..816366d 100644[m
+[1m--- a/Krutilities.lua[m
+[1m+++ b/Krutilities.lua[m
+[36m@@ -538,9 +538,8 @@[m [mdo[m
+ 		Shared_DrawLayer(frame, node);[m
+ [m
+ 		-- Font[m
+[31m-		local font = node.font;[m
+[31m-		if font then[m
+[31m-			text:SetFont(font.font or STANDARD_TEXT_FONT, font.size or 12, font.flags);[m
+[32m+[m		[32mif node.font or node.fontSize or node.fontFlags then[m
+[32m+[m			[32mtext:SetFont(node.font or STANDARD_TEXT_FONT, font.fontSize or 12, font.fontFlags);[m
+ 		end[m
+ [m
+ 		-- Text / Alignment[m
+[1mdiff --git a/README.md b/README.md[m
+[1mindex bc49452..060f789 100644[m
+[1m--- a/README.md[m
+[1m+++ b/README.md[m
+[36m@@ -142,7 +142,9 @@[m [mFor a more in-depth look at how pass-in  creation works, check out the Recursive[m
+ | inherit | string | Template to use for this font-string. | |[m
+ | width | int | Sets the width of the font-string. | |[m
+ | height | int | Sets the height of the font-string. | | [m
+[31m-| font | table | Set the font for this text | |[m
+[32m+[m[32m| font | string | Font file to use | |[m
+[32m+[m[32m| fontSize | int | Height (in pixels) of the font. | |[m[41m [m
+[32m+[m[32m| fontFlags | string | Font flags for text rendering. | |[m
+ | size | int, table | Short-cut for width/height. If table, usage is ``{width,height}``. If int, value will be used for both width and height. | |[m
+ | injectSelf | string | Inject the created font-string into the parent with the given key. If ``injectSelf`` is ``label`` then ``parent.label`` will be a reference to the new font-string. ||[m
+ | text | string | The initial text to display in the font-string. | |[m
+warning: CRLF will be replaced by LF in README.md.
+The file will have its original line endings in your working directory.

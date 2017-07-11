@@ -538,9 +538,8 @@ do
 		Shared_DrawLayer(frame, node);
 
 		-- Font
-		local font = node.font;
-		if font then
-			text:SetFont(font.font or STANDARD_TEXT_FONT, font.size or 12, font.flags);
+		if node.font or node.fontSize or node.fontFlags then
+			text:SetFont(node.font or STANDARD_TEXT_FONT, font.fontSize or 12, font.fontFlags);
 		end
 
 		-- Text / Alignment

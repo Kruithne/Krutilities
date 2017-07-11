@@ -142,7 +142,9 @@ For a more in-depth look at how pass-in  creation works, check out the Recursive
 | inherit | string | Template to use for this font-string. | |
 | width | int | Sets the width of the font-string. | |
 | height | int | Sets the height of the font-string. | | 
-| font | table | Set the font for this text | |
+| font | string | Font file to use | |
+| fontSize | int | Height (in pixels) of the font. | | 
+| fontFlags | string | Font flags for text rendering. | |
 | size | int, table | Short-cut for width/height. If table, usage is ``{width,height}``. If int, value will be used for both width and height. | |
 | injectSelf | string | Inject the created font-string into the parent with the given key. If ``injectSelf`` is ``label`` then ``parent.label`` will be a reference to the new font-string. ||
 | text | string | The initial text to display in the font-string. | |

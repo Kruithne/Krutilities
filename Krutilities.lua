@@ -537,6 +537,12 @@ do
 		Shared_Inject(text, frame, node.injectSelf);
 		Shared_DrawLayer(frame, node);
 
+		-- Font
+		local font = node.font;
+		if font then
+			text:SetFont(font.font or STANDARD_TEXT_FONT, font.size or 12, font.flags);
+		end
+
 		-- Text / Alignment
 		if node.text then text:SetText(node.text); end
 		if node.justifyH then text:SetJustifyH(node.justifyH); end

@@ -539,7 +539,7 @@ do
 
 		-- Font
 		if node.font or node.fontSize or node.fontFlags then
-			text:SetFont(node.font or STANDARD_TEXT_FONT, font.fontSize or 12, font.fontFlags);
+			text:SetFont(node.font or STANDARD_TEXT_FONT, node.fontSize or 12, node.fontFlags);
 		end
 
 		-- Text / Alignment

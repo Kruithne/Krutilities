@@ -69,8 +69,13 @@ do
 					-- Many points
 					for i = 1, #points do
 						local point = points[i];
-						point.point = point.point or "CENTER";
-						target:SetPoint(point.point, Shared_ProcessRelativePoint(point, parent), point.relativePoint or point.point, point.x or 0, point.y or 0);
+
+						if type(point) == "string" then
+							target:SetPoint(point, parent, point, 0, 0);
+						else
+							point.point = point.point or "CENTER";
+							target:SetPoint(point.point, Shared_ProcessRelativePoint(point, parent), point.relativePoint or point.point, point.x or 0, point.y or 0);
+						end
 					end
 				end
 			end

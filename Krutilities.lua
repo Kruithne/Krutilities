@@ -374,6 +374,7 @@ do
 		-- Frame strata (z-indexing).
 		if node.strata then frame:SetFrameStrata(node.strata); end
 		if node.topLevel ~= nil then frame:SetTopLevel(node.topLevel); end
+		if node.clampedToScreen ~= nil then frame:SetClampedToScreen(node.clampedToScreen); end
 
 		-- Generic stuff.
 		Shared_Sizing(frame, node);

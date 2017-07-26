@@ -48,6 +48,14 @@ do
 	end
 
 	-- [[ Local Functions ]] --
+	local Shared_ProcessRelativePoint = function(point, parent)
+		local parentRegion = point.relativeTo or parent;
+		if point.relativeKey then
+			return parentRegion[point.relativeKey];
+		end
+		return parentRegion;
+	end
+
 	local Shared_ProcessPoints = function(target, points, parent)
 		if points then
 			if type(points) == "string" then
@@ -56,13 +64,13 @@ do
 				if #points == 0 then
 					-- Single point.
 					points.point = points.point or "CENTER";
-					target:SetPoint(points.point, points.relativeTo or parent, points.relativePoint or points.point, points.x or 0, points.y or 0);
+					target:SetPoint(points.point, Shared_ProcessRelativePoint(points, parent), points.relativePoint or points.point, points.x or 0, points.y or 0);
 				else
 					-- Many points
 					for i = 1, #points do
 						local point = points[i];
 						point.point = point.point or "CENTER";
-						target:SetPoint(point.point, point.relativeTo or parent, point.relativePoint or point.point, point.x or 0, point.y or 0);
+						target:SetPoint(point.point, Shared_ProcessRelativePoint(point, parent), point.relativePoint or point.point, point.x or 0, point.y or 0);
 					end
 				end
 			end

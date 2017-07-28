@@ -122,7 +122,7 @@ do
 
 	local Shared_CreateChild = function(createFunc, frame, node)
 		local new = createFunc(frame, node);
-		
+
 		if node.buttonTex then
 			if node.buttonTex == "PUSHED" then
 				frame:SetPushedTexture(new);
@@ -261,12 +261,21 @@ do
 		return tableconcat(self._values, sep);
 	end
 
+	local StringChunk_Meta = {
+		__newindex = function(self, index, value)
+			StringChunk_Set(self, index, value);
+		end
+	};
+
 	_M.StringChunk = function(...)
-		return {
+		local chunk = {
 			_values = {...},
 			Set = StringChunk_Set,
 			Get = StringChunk_Get
 		};
+
+		setmetatable(chunk, StringChunk_Meta);
+		return chunk;
 	end
 
 	--[[ Factory Functions ]]--
@@ -279,7 +288,7 @@ do
 			frame = tableremove(dumpster, 1);
 		else
 			local data = self._data;
-			
+
 			-- If factory name is provided, generate incremented name.
 			if data.factoryName then
 				local index = self._index or 1;
@@ -507,7 +516,7 @@ do
 		if node.points == nil and setAllPoints ~= false then
 			setAllPoints = true;
 		end
-		
+
 		Shared_ProcessPoints(tex, node.points, frame);
 		if setAllPoints then tex:SetAllPoints(true); end
 

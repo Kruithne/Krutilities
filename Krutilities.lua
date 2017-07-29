@@ -392,6 +392,7 @@ do
 
 		if node.hidden then frame:Hide(); end
 		if node.enableMouse then frame:EnableMouse(); end
+		if node.enableKeyboard then frame:EnableKeyboard(); end
 
 		-- Frame strata (z-indexing).
 		if node.strata then frame:SetFrameStrata(node.strata); end

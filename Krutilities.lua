@@ -276,7 +276,8 @@ do
 		local chunk = {
 			_values = {...},
 			Set = StringChunk_Set,
-			Get = StringChunk_Get
+			Get = StringChunk_Get,
+			SetAndGet = StringChunk_SetAndGet
 		};
 
 		setmetatable(chunk, StringChunk_Meta);

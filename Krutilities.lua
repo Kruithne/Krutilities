@@ -261,6 +261,11 @@ do
 		return tableconcat(self._values, sep);
 	end
 
+	local StringChunk_SetAndGet = function(self, index, value)
+		self:Set(index, value);
+		return self:Get();
+	end
+
 	local StringChunk_Meta = {
 		__newindex = function(self, index, value)
 			StringChunk_Set(self, index, value);
